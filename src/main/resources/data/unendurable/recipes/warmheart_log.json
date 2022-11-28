@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "unendurable:warmheart_log"
+  },
+  "result": "minecraft:charcoal",
+  "experience": 0,
+  "cookingtime": 200
+}

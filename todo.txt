@@ -1,0 +1,5 @@
+- Aggiornare tutte le texture.
+- Rendere il materiale infiammabile.
+- Aggiungere nuovo blocco a colonna.
+- Aggiungere nuovi blocchi e varianti decorative.
+- Dare una caratteristica unica al materiale.

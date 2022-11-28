@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "R#R",
+    "#T#",
+    "R#R"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:glass"
+    },
+    "T": {
+      "item": "minecraft:torch"
+    },
+    "R": {
+      "item": "industrialfloor:fossil_rock"
+    }
+  },
+  "result": {
+    "item": "industrialfloor:lamp",
+    "count": 4
+  }
+}

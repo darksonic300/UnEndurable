@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "industrialfloor:fossil_rock"
+    }
+  },
+  "result": {
+    "item": "industrialfloor:floor",
+    "count": 4
+  }
+}

@@ -1,0 +1,12 @@
+Args: "--task", "SRG_TO_MCP", "--input", "C:\Users\Rossi's Family\.gradle\caches\modules-2\files-2.1\software.bernie.geckolib\geckolib-forge-1.16.5\3.0.65\bfea1479535d3f27cfe771fccb89549eff3104b\geckolib-forge-1.16.5-3.0.65.jar", "--output", "C:\Users\Rossi's Family\.gradle\caches\forge_gradle\deobf_dependencies\software\bernie\geckolib\geckolib-forge-1.16.5\3.0.65_mapped_snapshot_20210309-1.16.5\geckolib-forge-1.16.5-3.0.65_mapped_snapshot_20210309-1.16.5.jar", "--mcp", "C:\Users\Rossi's Family\.gradle\caches\forge_gradle\maven_downloader\de\oceanlabs\mcp\mcp_snapshot\20210309-1.16.5\mcp_snapshot-20210309-1.16.5.zip", "--strip-signatures"
+Classpath: C:\Users\Rossi's Family\.gradle\caches\forge_gradle\maven_downloader\net\minecraftforge\installertools\1.1.10\installertools-1.1.10-fatjar.jar
+WorkDir: E:\Fabio\MinecraftModding\UnEndurable\build\_RenameSrg2Mcp_1986609329
+Main: net.minecraftforge.installertools.ConsoleTool
+====================================
+Task: SRG_TO_MCP
+Input:  C:\Users\Rossi's Family\.gradle\caches\modules-2\files-2.1\software.bernie.geckolib\geckolib-forge-1.16.5\3.0.65\bfea1479535d3f27cfe771fccb89549eff3104b\geckolib-forge-1.16.5-3.0.65.jar
+Output: C:\Users\Rossi's Family\.gradle\caches\forge_gradle\deobf_dependencies\software\bernie\geckolib\geckolib-forge-1.16.5\3.0.65_mapped_snapshot_20210309-1.16.5\geckolib-forge-1.16.5-3.0.65_mapped_snapshot_20210309-1.16.5.jar
+MCP:    C:\Users\Rossi's Family\.gradle\caches\forge_gradle\maven_downloader\de\oceanlabs\mcp\mcp_snapshot\20210309-1.16.5\mcp_snapshot-20210309-1.16.5.zip
+Loading MCP Data
+Stripped Manifest of sha digests
+Process complete

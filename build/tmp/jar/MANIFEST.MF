@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Specification-Title: UnEndurable
+Specification-Vendor: UnEndurable
+Specification-Version: 0.0
+Implementation-Title: UnEndurable
+Implementation-Version: 1.16.5-0.0-22
+Implementation-Vendor: UnEndurable
+Implementation-Timestamp: 2022-03-24T13:15:45+0100
+

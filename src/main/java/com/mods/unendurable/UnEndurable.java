@@ -1,35 +1,16 @@
 package com.mods.unendurable;
 
-import com.mods.unendurable.entities.Wanderer;
-import com.mods.unendurable.items.ModArmorMaterial;
-import com.mods.unendurable.items.ModSpawnEggItem;
-import com.mods.unendurable.loot.WandererDrop;
-import com.mods.unendurable.world.gen.ModBiomeGeneration;
-import net.minecraft.block.Blocks;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderTypeLookup;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.DeferredWorkQueue;
 import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -61,13 +42,12 @@ public class UnEndurable
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
 
 
+        GeckoLib.initialize();
+        //UEItemGroup.load();
         RegistryHandler.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
         RegistryHandler.BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        RegistryHandler.ENTITIES.register(FMLJavaModLoadingContext.get().getModEventBus());
-        RegistryHandler.BIOMES.register(FMLJavaModLoadingContext.get().getModEventBus());
-        RegistryHandler.SURFACES.register(FMLJavaModLoadingContext.get().getModEventBus());
-
-        GeckoLib.initialize();
+        //RegistryHandler.ENTITIES.register(FMLJavaModLoadingContext.get().getModEventBus());
+        //RegistryHandler.BIOMES.register(FMLJavaModLoadingContext.get().getModEventBus());
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
@@ -75,23 +55,12 @@ public class UnEndurable
 
     private void setup(final FMLCommonSetupEvent event)
     {
-        // some preinit code
         LOGGER.info("HELLO FROM PREINIT");
-        LOGGER.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
-        DeferredWorkQueue.runLater(() -> {
-            GlobalEntityTypeAttributes.put(RegistryHandler.WANDERER.get(), Wanderer.setCustomAttributes().create());
-            ModBiomeGeneration.generateBiomes();
-        });
-
+        LOGGER.info("DIRT BLOCK >> {}", Blocks.DIRT.getName());
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
         // do something that can only be done on the client
-        LOGGER.info("Got game settings {}", event.getMinecraftSupplier().get().gameSettings);
-
-        RenderTypeLookup.setRenderLayer(RegistryHandler.WARMHEART_SAPLING.get(), RenderType.getCutout());
-        RenderTypeLookup.setRenderLayer(RegistryHandler.WARMHEART_LEAVES.get(), RenderType.getCutout());
-
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event)
@@ -107,27 +76,7 @@ public class UnEndurable
                 map(m->m.getMessageSupplier().get()).
                 collect(Collectors.toList()));
     }
-    // You can use SubscribeEvent and let the Event Bus discover methods to call
-    @SubscribeEvent
-    public void onServerStarting(FMLServerStartingEvent event) {
-        // do something when the server starts
-        LOGGER.info("HELLO from server starting");
-    }
 
-    @SubscribeEvent
-    public static void onRegisterEntities(final RegistryEvent.Register<EntityType<?>> event)
-    {
-        ModSpawnEggItem.initSpawnEggs();
-    }
-
-    /*@SubscribeEvent
-    public static void registerModifierSerializers(@Nonnull final RegistryEvent.Register<GlobalLootModifierSerializer<?>>
-                                                           event) {
-        event.getRegistry().registerAll(
-                new WandererDrop.Serializer().setRegistryName
-                        (new ResourceLocation(UnEndurable.MODID,"phantom_cloth_from_wanderer"))
-        );
-    }*/
 
     public static ResourceLocation location(String name)
     {

@@ -1,49 +1,39 @@
 package com.mods.unendurable;
 
-import com.mods.unendurable.blocks.WarmheartLeaves;
 import com.mods.unendurable.blocks.WarmheartLog;
-import com.mods.unendurable.blocks.WarmheartPlanks;
 import com.mods.unendurable.entities.Wanderer;
 import com.mods.unendurable.items.ModArmorItem;
 import com.mods.unendurable.items.ModArmorMaterial;
-import com.mods.unendurable.items.ModSpawnEggItem;
-import com.mods.unendurable.world.biome.ModConfiguredSurfaceBuilders;
-import com.mods.unendurable.world.feature.WarmheartTree;
-import com.mods.unendurable.world.gen.ModConfiguredFeatures;
-import net.minecraft.block.*;
-import net.minecraft.entity.EntityClassification;
-import net.minecraft.entity.EntityType;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.biome.*;
-import net.minecraft.world.gen.GenerationStage;
-import net.minecraft.world.gen.feature.*;
-import net.minecraft.world.gen.feature.structure.StructureFeatures;
-import net.minecraft.world.gen.placement.AtSurfaceWithExtraConfig;
-import net.minecraft.world.gen.placement.Placement;
-import net.minecraft.world.gen.surfacebuilders.ConfiguredSurfaceBuilder;
-import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
-import net.minecraftforge.fml.RegistryObject;
+
+import com.mods.unendurable.world.feature.WarmheartTreeGrower;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraftforge.common.ForgeSpawnEggItem;
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-
-import java.util.function.Supplier;
+import net.minecraftforge.registries.RegistryObject;
 
 public class RegistryHandler {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, UnEndurable.MODID);
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, UnEndurable.MODID);
-    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, UnEndurable.MODID);
+    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, UnEndurable.MODID);
     public static final DeferredRegister<Biome> BIOMES = DeferredRegister.create(ForgeRegistries.BIOMES, UnEndurable.MODID);
-    public static final DeferredRegister<SurfaceBuilder<?>> SURFACES = DeferredRegister.create(ForgeRegistries.SURFACE_BUILDERS, UnEndurable.MODID);
 
 
     //Entity registration
-    public static final RegistryObject<EntityType<Wanderer>> WANDERER = ENTITIES.register("icy_wanderer", () -> EntityType.Builder.create(Wanderer::new, EntityClassification.MONSTER)
-            .size(1f, 2f)
+    public static final RegistryObject<EntityType<Wanderer>> WANDERER = ENTITIES.register("icy_wanderer", () -> EntityType.Builder.<Wanderer>of(Wanderer::new, MobCategory.MONSTER)
+            .sized(1f, 2f).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(Wanderer::new)
             .build(new ResourceLocation(UnEndurable.MODID, "icy_wanderer").toString()));
 
 
@@ -53,39 +43,52 @@ public class RegistryHandler {
 
     public static final RegistryObject<Block> STRIP_WARMHEART_LOG = BLOCKS.register("stripped_warmheart_log", () -> new WarmheartLog(3,4));
 
-    public static final RegistryObject<Block> WARMHEART_PLANKS = BLOCKS.register("warmheart_planks", () -> new WarmheartPlanks(3,4));
+    public static final RegistryObject<Block> WARMHEART_PLANKS = BLOCKS.register("warmheart_planks", () -> new Block(BlockBehaviour.Properties.copy(Blocks.ACACIA_PLANKS)));
 
-    public static final RegistryObject<Block> WARMHEART_LEAVES = BLOCKS.register("warmheart_leaves",() -> new WarmheartLeaves(5,6));
+    public static final RegistryObject<Block> WARMHEART_LEAVES = BLOCKS.register("warmheart_leaves",() -> new LeavesBlock(BlockBehaviour.Properties.copy(Blocks.ACACIA_LEAVES)));
 
     public static final RegistryObject<Block> WARMHEART_SAPLING = BLOCKS.register("warmheart_sapling",
-            () -> new SaplingBlock(new WarmheartTree(), AbstractBlock.Properties.from(Blocks.SPRUCE_SAPLING)));
+            () -> new SaplingBlock(new WarmheartTreeGrower(), Block.Properties.copy(Blocks.SPRUCE_SAPLING)));
 
     public static final RegistryObject<Block> SNOWMAN_HEAD = BLOCKS.register("snowman_head",
-            () -> new FlowerBlock(Effects.LUCK, 0, AbstractBlock.Properties.from(Blocks.GRASS)));
+            () -> new FlowerBlock(MobEffects.LUCK, 0, Block.Properties.copy(Blocks.GRASS)));
 
 
     //Item registration
-    public static final RegistryObject<BlockItem> WARMHEART_LOG_ITEM = ITEMS.register("warmheart_log", () -> new BlockItem(WARMHEART_LOG.get(), new Item.Properties().group(UEItemGroup.ALL)));
+    public static final RegistryObject<BlockItem> WARMHEART_LOG_ITEM = ITEMS.register("warmheart_log", () -> new BlockItem(WARMHEART_LOG.get(), new Item.Properties().tab(UEItemGroup.TAB_UNENDURABLE_TAB)));
 
-    public static final RegistryObject<BlockItem> STRIP_WARMHEART_LOG_ITEM = ITEMS.register("stripped_warmheart_log", () -> new BlockItem(STRIP_WARMHEART_LOG.get(), new Item.Properties().group(UEItemGroup.ALL)));
+    public static final RegistryObject<BlockItem> STRIP_WARMHEART_LOG_ITEM = ITEMS.register("stripped_warmheart_log", () -> new BlockItem(STRIP_WARMHEART_LOG.get(), new Item.Properties().tab(UEItemGroup.TAB_UNENDURABLE_TAB)));
 
-    public static final RegistryObject<BlockItem> WARMHEART_PLANKS_ITEM = ITEMS.register("warmheart_planks", () -> new BlockItem(WARMHEART_PLANKS.get(), new Item.Properties().group(UEItemGroup.ALL)));
+    public static final RegistryObject<BlockItem> WARMHEART_PLANKS_ITEM = ITEMS.register("warmheart_planks", () -> new BlockItem(WARMHEART_PLANKS.get(), new Item.Properties().tab(UEItemGroup.TAB_UNENDURABLE_TAB)));
 
-    public static final RegistryObject<BlockItem> WARMHEART_LEAVES_ITEM = ITEMS.register("warmheart_leaves", () -> new BlockItem(WARMHEART_LEAVES.get(), new Item.Properties().group(UEItemGroup.ALL)));
+    public static final RegistryObject<BlockItem> WARMHEART_LEAVES_ITEM = ITEMS.register("warmheart_leaves", () -> new BlockItem(WARMHEART_LEAVES.get(), new Item.Properties().tab(UEItemGroup.TAB_UNENDURABLE_TAB)));
 
-    public static final RegistryObject<BlockItem> WARMHEART_SAPLING_ITEM = ITEMS.register("warmheart_sapling", () -> new BlockItem(WARMHEART_SAPLING.get(), new Item.Properties().group(UEItemGroup.ALL)));
+    public static final RegistryObject<BlockItem> WARMHEART_SAPLING_ITEM = ITEMS.register("warmheart_sapling", () -> new BlockItem(WARMHEART_SAPLING.get(), new Item.Properties().tab(UEItemGroup.TAB_UNENDURABLE_TAB)));
 
-    public static final RegistryObject<ModSpawnEggItem> WANDERER_EGG = ITEMS.register("wanderer_egg", () -> new ModSpawnEggItem(WANDERER, 0xFFFFFF, 0xA8FFFA, new Item.Properties().group(UEItemGroup.ALL)));
+    public static final RegistryObject<Item> WANDERER_EGG = ITEMS.register("wanderer_egg",
+            () -> new ForgeSpawnEggItem(RegistryHandler.WANDERER, 33323, 42424, new Item.Properties().tab(UEItemGroup.TAB_UNENDURABLE_TAB)));
 
-    public static final RegistryObject<Item> PHANTOM_CLOTH = ITEMS.register("phantom_cloth", () -> new Item(new Item.Properties().group(UEItemGroup.ALL)));
+    public static final RegistryObject<Item> PHANTOM_CLOTH = ITEMS.register("phantom_cloth", () -> new Item(new Item.Properties().tab(UEItemGroup.TAB_UNENDURABLE_TAB)));
 
-    public static final RegistryObject<Item> PHANTOM_PATCH = ITEMS.register("phantom_patch", () -> new Item(new Item.Properties().group(UEItemGroup.ALL)));
+    public static final RegistryObject<Item> PHANTOM_PATCH = ITEMS.register("phantom_patch", () -> new Item(new Item.Properties().tab(UEItemGroup.TAB_UNENDURABLE_TAB)));
 
-    public static final RegistryObject<Item> PHANTOM_CAPE = ITEMS.register("phantom_cape", () -> new ModArmorItem(ModArmorMaterial.PHANTOM_CLOTH, EquipmentSlotType.CHEST, new Item.Properties().group(UEItemGroup.ALL)));
+    public static final RegistryObject<Item> PHANTOM_CAPE = ITEMS.register("phantom_cape", () -> new ModArmorItem(ModArmorMaterial.PHANTOM_CLOTH, EquipmentSlot.CHEST, new Item.Properties().tab(UEItemGroup.TAB_UNENDURABLE_TAB)));
 
+
+    /*@SubscribeEvent
+    public static void init(FMLCommonSetupEvent event) {
+        event.enqueueWork(() -> {
+            Wanderer.init();
+        });
+    }
+
+    @SubscribeEvent
+    public static void registerAttributes(EntityAttributeCreationEvent event) {
+        event.put(WANDERER.get(), Wanderer.setCustomAttributes().build());
+    }*/
 
     //Biome registration
-    public static final RegistryObject<Biome> ICE_AGE = BIOMES.register("ice_age",
+    /*public static final RegistryObject<Biome> ICE_AGE = BIOMES.register("ice_age",
             () -> makeIceAgeBiome(() -> ModConfiguredSurfaceBuilders.ICE_SURFACE, 0.1f, 0.1f));
 
     private static Biome makeIceAgeBiome(final Supplier<ConfiguredSurfaceBuilder<?>> surfaceBuilder, float depth, float scale) {
@@ -124,6 +127,6 @@ public class RegistryHandler {
                             .setParticle(new ParticleEffectAmbience(ParticleTypes.WHITE_ASH, 0.04f)).withSkyColor(7633547)
                             .build())
                     .withMobSpawnSettings(mobspawninfo$builder.build()).withGenerationSettings(biomegenerationsettings$builder.build()).build();
-        }
+        }*/
 
 }

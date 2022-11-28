@@ -1,21 +1,27 @@
 package com.mods.unendurable;
 
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.function.Supplier;
 
-public class UEItemGroup extends ItemGroup {
+public class UEItemGroup {
 
-    private final Supplier<ItemStack> displayStack;
+    public static CreativeModeTab TAB_UNENDURABLE_TAB;
 
-    public static final UEItemGroup ALL = new UEItemGroup("all", () -> new ItemStack(RegistryHandler.PHANTOM_CLOTH.get()));
+    public static void load() {
+        TAB_UNENDURABLE_TAB = new CreativeModeTab("UnEndurable") {
+            @Override
+            public ItemStack makeIcon() {
+                return new ItemStack(RegistryHandler.PHANTOM_CLOTH.get());
+            }
 
-    protected UEItemGroup(String label, Supplier<ItemStack> displayStack) {
-        super(label);
-        this.displayStack = displayStack;
+            @OnlyIn(Dist.CLIENT)
+            public boolean hasSearchBar() {
+                return false;
+            }
+        };
     }
-
-    @Override
-    public ItemStack createIcon() { return displayStack.get(); }
 }

@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
-Specification-Title: UnEndurable
-Specification-Vendor: UnEndurable
-Specification-Version: 0.0
+Specification-Title: examplemod
+Specification-Vendor: examplemodsareus
+Specification-Version: 1
 Implementation-Title: UnEndurable
-Implementation-Version: 1.16.5-0.0-22
-Implementation-Vendor: UnEndurable
-Implementation-Timestamp: 2022-03-24T13:15:45+0100
+Implementation-Version: 1.0
+Implementation-Vendor: examplemodsareus
+Implementation-Timestamp: 2022-10-01T18:30:26+0200
 

@@ -1,27 +1,34 @@
 package com.mods.unendurable.entities;
 
 import com.mods.unendurable.RegistryHandler;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.monster.StrayEntity;
-import net.minecraft.entity.passive.IronGolemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.*;
-import net.minecraft.util.math.BlockPos;
+
+import net.minecraft.client.renderer.EffectInstance;
+import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.World;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.animal.IronGolem;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.monster.Stray;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.alchemy.Potions;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.network.PlayMessages;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -30,132 +37,117 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
+
+import javax.annotation.Nullable;
 import java.util.Random;
 
 
-public class Wanderer extends StrayEntity implements IAnimatable {
+public class Wanderer extends Stray implements IAnimatable {
 
-    private final AnimationFactory factory = new AnimationFactory(this);
+    private AnimationFactory factory = new AnimationFactory(this);
 
-    public Wanderer(EntityType<? extends StrayEntity> p_i50191_1_, World p_i50191_2_) {
-        super(p_i50191_1_, p_i50191_2_);
+    public Wanderer(PlayMessages.SpawnEntity packet, Level world) {
+        this(RegistryHandler.WANDERER.get(), world);
     }
 
-    public static AttributeModifierMap.MutableAttribute setCustomAttributes() {
-        return MobEntity.func_233666_p_()
-                .createMutableAttribute(Attributes.MAX_HEALTH, 30.0D)
-                .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.25D)
-                .createMutableAttribute(Attributes.ATTACK_SPEED, 1.0D)
-                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 6.0D)
-                .createMutableAttribute(Attributes.FOLLOW_RANGE, 10.0D)
-                .createMutableAttribute(Attributes.KNOCKBACK_RESISTANCE, 10.0D);
+    public Wanderer(EntityType<Wanderer> type, Level world) {
+        super(type, world);
+    }
+
+    public static AttributeSupplier.Builder setCustomAttributes() {
+        return Mob.createMobAttributes()
+                .add(Attributes.MAX_HEALTH, 30.0D)
+                .add(Attributes.MOVEMENT_SPEED, 0.25D)
+                .add(Attributes.ATTACK_SPEED, 1.0D)
+                .add(Attributes.ATTACK_DAMAGE, 6.0D)
+                .add(Attributes.FOLLOW_RANGE, 10.0D)
+                .add(Attributes.KNOCKBACK_RESISTANCE, 10.0D);
+    }
+
+    public static void init() {
+        SpawnPlacements.register(RegistryHandler.WANDERER.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                (entityType, world, reason, pos,
+                 random) -> (world.getBlockState(pos.above()).is(Blocks.AIR)));
     }
 
     @Override
     protected void registerGoals() {
         super.registerGoals();
-        this.goalSelector.addGoal( 1, new NearestAttackableTargetGoal<>( this, PlayerEntity.class, true ) );
+        this.goalSelector.addGoal( 1, new NearestAttackableTargetGoal<>( this, Player.class, true ) );
         this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0D, false));
-        this.goalSelector.addGoal(7, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolemEntity.class, true));
+        this.goalSelector.addGoal(7, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
+        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
     }
 
     @Override
-    protected int getExperiencePoints(PlayerEntity player)
-    {
-        return 4 + this.world.rand.nextInt(5);
+    public int getExperienceReward() {
+        return 5;
     }
 
     @Override
     protected SoundEvent getAmbientSound()
     {
-        return SoundEvents.ENTITY_STRAY_AMBIENT;
+        return SoundEvents.STRAY_AMBIENT;
     }
 
 
     @Override
     protected SoundEvent getDeathSound()
     {
-        return SoundEvents.ENTITY_STRAY_DEATH;
+        return SoundEvents.STRAY_DEATH;
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn)
     {
-        return SoundEvents.ENTITY_STRAY_HURT;
+        return SoundEvents.STRAY_HURT;
     }
 
     @Override
     protected void playStepSound(BlockPos pos, BlockState blockIn)
     {
-        this.playSound(SoundEvents.ENTITY_STRAY_STEP, 0.20F, 0.5F);
+        this.playSound(SoundEvents.STRAY_STEP, 0.20F, 0.5F);
     }
-
-
-    @SubscribeEvent
-    public void dropItem(LivingDeathEvent event){
-        if (!(event.getEntity() instanceof Wanderer)) {
-            return;
-        }
-
-        Random random = new Random();
-
-        if (!event.getEntity().world.isRemote) {
-            entityDropItem(RegistryHandler.PHANTOM_CLOTH.get(), random.nextInt(3));
-        }
-    }
-
-   /* @Nullable
-    @Override
-    public ItemEntity entityDropItem(ItemStack p_70099_1_, float p_70099_2_) {
-        if (p_70099_1_.isEmpty()) {
-            return null;
-        } else if (this.world.isRemote) {
-            return null;
-        } else {
-            ItemEntity itementity = new ItemEntity(this.world, this.getPosX(), this.getPosY() + (double)p_70099_2_, this.getPosZ(), p_70099_1_);
-            itementity.setDefaultPickupDelay();
-            this.world.addEntity(itementity);
-            return itementity;
-        }
-    }*/
 
     @Override
-    protected void setEquipmentBasedOnDifficulty(DifficultyInstance p_180481_1_) {
-        super.setEquipmentBasedOnDifficulty(p_180481_1_);
-        this.setItemStackToSlot(EquipmentSlotType.MAINHAND, ItemStack.EMPTY);
+    protected void dropFromLootTable(DamageSource p_21389_, boolean p_21390_) {
+        super.dropFromLootTable(p_21389_, p_21390_);
     }
+
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-        event.getController().setAnimation(new AnimationBuilder().addAnimation("animations.icy_wanderer.idle", true));
+        if (event.isMoving()) {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.quail.walk", true));
+            return PlayState.CONTINUE;
+        }
+
+        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.quail.idle", true));
         return PlayState.CONTINUE;
     }
 
     @Override
-    public boolean attackEntityAsMob(Entity entityIn) {
-        if (!super.attackEntityAsMob(entityIn)) {
+    public boolean canAttack(LivingEntity entityIn) {
+        if (!super.canAttack(entityIn)) {
             return false;
         } else {
             if (entityIn instanceof LivingEntity) {
-                ((LivingEntity)entityIn).addPotionEffect(new EffectInstance(Effects.SLOWNESS, 100,1));
-                ((LivingEntity)entityIn).addPotionEffect(new EffectInstance(Effects.WEAKNESS, 100));
+                (entityIn).addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 1, true, true, true));
+                (entityIn).addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 100, 1, true, true, true));
             }
             return true;
         }
     }
 
+
     @Override
     public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController<Wanderer>(this, "controller", 0, this::predicate));
+        data.addAnimationController(new AnimationController(this, "controller",
+                0, this::predicate));
     }
 
     @Override
     public AnimationFactory getFactory() {
         return this.factory;
-    }
-
-    protected boolean isDespawnPeaceful() {
-        return true;
     }
 }

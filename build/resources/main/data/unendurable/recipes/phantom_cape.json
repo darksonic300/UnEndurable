@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "- -",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "unendurable:phantom_patch"
+    },
+    "-": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "result": {
+    "item": "unendurable:phantom_cape",
+    "count": 1
+  }
+}

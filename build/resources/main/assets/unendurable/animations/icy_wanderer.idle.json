@@ -1,0 +1,25 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.icy_wanderer.idle": {
+			"loop": true,
+			"animation_length": 4,
+			"bones": {
+				"waist": {
+					"rotation": [0, 0, 0],
+					"position": [0, -1, 0],
+					"scale": [1, 1, 1]
+					},
+				"body": {
+					"rotation": [2.5, 7.5, 2.5]
+					},
+				"rightArm": {
+					"rotation": [0, 5, 0, 5, 0]
+					},
+				"leftArm": {
+					"rotation": [0, -5, 0, -5, 0]
+				}
+			}
+		}
+	}
+}

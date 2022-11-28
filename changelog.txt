@@ -1,0 +1,9 @@
+1.0 - Functional Mod Release.
+1.1 - Code Clean up.
+1.2 - Added the new block "Fossil Stone" with world generation. Updated "Industrial Floor" crafting recipe.
+1.3 - Added the new item "Fossil Rock". Updated recipe.
+1.4 - Added the new block "Industrial Column" currently unobtainable. -Added new summonable Entity Crab per dev purposes.-
+1.5 - Changed textures and added crafting recipe for Column. -Attempts to optimize Crab AI-
+1.6 - Added Italian translation and changed Industrial Column texture.
+1.7 - Added new Lamp block.
+1.8 - Added Stairs based on the Industrial Floor block, with recipes for Lamp too.

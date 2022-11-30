@@ -56,8 +56,8 @@ public class Wanderer extends Stray implements IAnimatable {
 
     public static AttributeSupplier.Builder setCustomAttributes() {
         return Mob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 30.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.25D)
+                .add(Attributes.MAX_HEALTH, 30.0D)
                 .add(Attributes.ATTACK_SPEED, 1.0D)
                 .add(Attributes.ATTACK_DAMAGE, 6.0D)
                 .add(Attributes.FOLLOW_RANGE, 10.0D)
@@ -117,12 +117,8 @@ public class Wanderer extends Stray implements IAnimatable {
 
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-        if (event.isMoving()) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.quail.walk", true));
-            return PlayState.CONTINUE;
-        }
 
-        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.quail.idle", true));
+        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.icy_wanderer.idle", true));
         return PlayState.CONTINUE;
     }
 

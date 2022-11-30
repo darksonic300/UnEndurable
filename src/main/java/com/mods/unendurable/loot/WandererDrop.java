@@ -1,20 +1,19 @@
 package com.mods.unendurable.loot;
 
 import com.google.gson.JsonObject;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.loot.LootContext;
-import net.minecraft.loot.conditions.ILootCondition;
-import net.minecraft.util.JSONUtils;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
+import com.mojang.serialization.Codec;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraftforge.common.loot.IGlobalLootModifier;
 import net.minecraftforge.common.loot.LootModifier;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class WandererDrop extends LootModifier {
+/*public class WandererDrop extends LootModifier {
     private final Item addition;
 
     protected WandererDrop(ILootCondition[] conditionsIn, Item addition) {
@@ -28,6 +27,16 @@ public class WandererDrop extends LootModifier {
         generatedLoot.clear();
         generatedLoot.add(new ItemStack(addition, 1));
         return generatedLoot;
+    }
+
+    @Override
+    protected @NotNull ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
+        return null;
+    }
+
+    @Override
+    public Codec<? extends IGlobalLootModifier> codec() {
+        return null;
     }
 
     public static class Serializer extends GlobalLootModifierSerializer<WandererDrop> {
@@ -46,4 +55,4 @@ public class WandererDrop extends LootModifier {
             return json;
         }
     }
-}
+}*/

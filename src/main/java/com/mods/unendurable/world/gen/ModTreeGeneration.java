@@ -1,5 +1,5 @@
 package com.mods.unendurable.world.gen;
-
+/*
 import com.mods.unendurable.RegistryHandler;
 import com.mods.unendurable.UnEndurable;
 import net.minecraft.util.RegistryKey;
@@ -26,4 +26,4 @@ public class ModTreeGeneration {
         RegistryKey<Biome> key = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, event.getName());
         Set<BiomeDictionary.Type> types = BiomeDictionary.getTypes(key);
         }
-}
+}*/

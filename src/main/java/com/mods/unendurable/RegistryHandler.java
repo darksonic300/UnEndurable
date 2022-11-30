@@ -1,6 +1,5 @@
 package com.mods.unendurable;
 
-import com.mods.unendurable.blocks.WarmheartLog;
 import com.mods.unendurable.entities.Wanderer;
 import com.mods.unendurable.items.ModArmorItem;
 import com.mods.unendurable.items.ModArmorMaterial;
@@ -19,11 +18,13 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class RegistryHandler {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, UnEndurable.MODID);
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, UnEndurable.MODID);
@@ -32,16 +33,16 @@ public class RegistryHandler {
 
 
     //Entity registration
-    public static final RegistryObject<EntityType<Wanderer>> WANDERER = ENTITIES.register("icy_wanderer", () -> EntityType.Builder.<Wanderer>of(Wanderer::new, MobCategory.MONSTER)
+    public static final RegistryObject<EntityType<Wanderer>> WANDERER = ENTITIES.register("icy_wanderer",
+            () -> EntityType.Builder.<Wanderer>of(Wanderer::new, MobCategory.MONSTER)
             .sized(1f, 2f).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(Wanderer::new)
             .build(new ResourceLocation(UnEndurable.MODID, "icy_wanderer").toString()));
 
 
     //Block registration and properties
-    public static final RegistryObject<Block> WARMHEART_LOG = BLOCKS.register("warmheart_log", () -> new WarmheartLog(3,4));
-            //() -> new RotatedPillarBlock(AbstractBlock.Properties.from(Blocks.OAK_LOG)));
+    public static final RegistryObject<Block> WARMHEART_LOG = BLOCKS.register("warmheart_log", () -> new RotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LOG)));
 
-    public static final RegistryObject<Block> STRIP_WARMHEART_LOG = BLOCKS.register("stripped_warmheart_log", () -> new WarmheartLog(3,4));
+    public static final RegistryObject<Block> STRIP_WARMHEART_LOG = BLOCKS.register("stripped_warmheart_log", () -> new RotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LOG)));
 
     public static final RegistryObject<Block> WARMHEART_PLANKS = BLOCKS.register("warmheart_planks", () -> new Block(BlockBehaviour.Properties.copy(Blocks.ACACIA_PLANKS)));
 
@@ -75,7 +76,7 @@ public class RegistryHandler {
     public static final RegistryObject<Item> PHANTOM_CAPE = ITEMS.register("phantom_cape", () -> new ModArmorItem(ModArmorMaterial.PHANTOM_CLOTH, EquipmentSlot.CHEST, new Item.Properties().tab(UEItemGroup.TAB_UNENDURABLE_TAB)));
 
 
-    /*@SubscribeEvent
+    @SubscribeEvent
     public static void init(FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
             Wanderer.init();
@@ -85,7 +86,7 @@ public class RegistryHandler {
     @SubscribeEvent
     public static void registerAttributes(EntityAttributeCreationEvent event) {
         event.put(WANDERER.get(), Wanderer.setCustomAttributes().build());
-    }*/
+    }
 
     //Biome registration
     /*public static final RegistryObject<Biome> ICE_AGE = BIOMES.register("ice_age",

@@ -1,12 +1,27 @@
+
+buildscript {
+    repositories {
+        maven { url = 'https://maven.minecraftforge.net/' }
+        maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
+    }
+    dependencies {
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
+        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
+    }
+}
+
 plugins {
     id 'eclipse'
     id 'maven-publish'
     id 'net.minecraftforge.gradle' version '5.1.+'
 }
 
-version = '1.0'
-group = 'com.yourname.modid' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'modid'
+
+apply plugin: 'org.spongepowered.mixin'
+
+version = '19.2.0.1'
+group = 'com.darksonic300.unendurable' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = 'unendurable'
 
 // Mojang ships Java 17 to end users in 1.18+, so your mod should target Java 17.
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
@@ -48,10 +63,10 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
-            property 'forge.enabledGameTestNamespaces', 'examplemod'
+            property 'forge.enabledGameTestNamespaces', 'unendurable'
 
             mods {
-                examplemod {
+                unendurable {
                     source sourceSets.main
                 }
             }
@@ -67,7 +82,7 @@ minecraft {
             property 'forge.enabledGameTestNamespaces', 'examplemod'
 
             mods {
-                examplemod {
+                unendurable {
                     source sourceSets.main
                 }
             }
@@ -86,7 +101,7 @@ minecraft {
             property 'forge.enabledGameTestNamespaces', 'examplemod'
 
             mods {
-                examplemod {
+                unendurable {
                     source sourceSets.main
                 }
             }
@@ -100,10 +115,10 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
-            args '--mod', 'examplemod', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+            args '--mod', 'unendurable', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
 
             mods {
-                examplemod {
+                unendurable {
                     source sourceSets.main
                 }
             }
@@ -119,6 +134,7 @@ repositories {
     // ForgeGradle automatically adds the Forge maven and Maven Central for you
 
     maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
+    maven { url 'https://maven.minecraftforge.net/' }
 }
 
 dependencies {
@@ -133,14 +149,15 @@ dependencies {
     // implementation fg.deobf("com.tterrag.registrate:Registrate:MC${mc_version}-${registrate_version}") // Adds registrate as a dependency
 
     implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.19:3.1.19')
+    implementation fg.deobf('com.github.glitchfiend:TerraBlender-forge:1.19.2-2.0.1.128')
 }
 
 // Example for how to get properties into the manifest for reading at runtime.
 jar {
     manifest {
         attributes([
-                "Specification-Title"     : "examplemod",
-                "Specification-Vendor"    : "examplemodsareus",
+                "Specification-Title"     : "unendurable",
+                "Specification-Vendor"    : "TeamRazor",
                 "Specification-Version"   : "1", // We are version 1 of ourselves
                 "Implementation-Title"    : project.name,
                 "Implementation-Version"  : project.jar.archiveVersion,

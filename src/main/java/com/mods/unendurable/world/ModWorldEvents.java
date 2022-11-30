@@ -1,5 +1,5 @@
 package com.mods.unendurable.world;
-
+/*
 import com.mods.unendurable.UnEndurable;
 import com.mods.unendurable.world.gen.ModTreeGeneration;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
@@ -14,4 +14,4 @@ public class ModWorldEvents {
         public static void biomeLoadingEvent(final BiomeLoadingEvent event) {
             ModTreeGeneration.generateTrees(event);
         }
-    }
+    }*/

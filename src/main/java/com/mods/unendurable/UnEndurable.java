@@ -1,9 +1,16 @@
 package com.mods.unendurable;
 
 
+import com.mods.unendurable.world.biome.UEBiomes;
+import com.mods.unendurable.world.biome.UETestBiomes;
+import com.mods.unendurable.world.gen.ModConfiguredFeatures;
+import com.mods.unendurable.world.gen.ModPlacedFeatures;
+import com.mods.unendurable.world.gen.UERegion;
+import com.mods.unendurable.world.surface.UESurfaceData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.common.Mod;
@@ -15,6 +22,8 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import software.bernie.geckolib3.GeckoLib;
+import terrablender.api.Regions;
+import terrablender.api.SurfaceRuleManager;
 
 import javax.annotation.Nonnull;
 import java.util.stream.Collectors;
@@ -41,13 +50,16 @@ public class UnEndurable
         // Register the doClientStuff method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
 
+        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
         GeckoLib.initialize();
-        //UEItemGroup.load();
-        RegistryHandler.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        RegistryHandler.BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        //RegistryHandler.ENTITIES.register(FMLJavaModLoadingContext.get().getModEventBus());
-        //RegistryHandler.BIOMES.register(FMLJavaModLoadingContext.get().getModEventBus());
+        UEItemGroup.load();
+        RegistryHandler.ITEMS.register(bus);
+        RegistryHandler.BLOCKS.register(bus);
+        RegistryHandler.ENTITIES.register(bus);
+        ModPlacedFeatures.register(bus);
+        UEBiomes.BIOME_REGISTER.register(bus);
+        UEBiomes.registerBiomes();
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
@@ -55,8 +67,14 @@ public class UnEndurable
 
     private void setup(final FMLCommonSetupEvent event)
     {
-        LOGGER.info("HELLO FROM PREINIT");
-        LOGGER.info("DIRT BLOCK >> {}", Blocks.DIRT.getName());
+        event.enqueueWork(() ->
+        {
+            // Given we only add two biomes, we should keep our weight relatively low.
+            Regions.register(new UERegion(new ResourceLocation(MODID, "overworld"), 2));
+
+            // Register our surface rules
+            SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, MODID, UESurfaceData.makeRules());
+        });
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {

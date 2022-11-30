@@ -8,22 +8,15 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
+import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 import software.bernie.geckolib3.renderers.geo.GeoLayerRenderer;
 import software.bernie.geckolib3.renderers.geo.IGeoRenderer;
+import software.bernie.geckolib3.renderers.geo.layer.LayerGlowingAreasGeo;
 
-public class WandererGlowLayer<T extends LivingEntity> extends GeoLayerRenderer<Wanderer> {
-    private static final RenderType RENDER_TYPE = RenderType.eyes(new ResourceLocation(UnEndurable.MODID, "textures/entity/icy_wanderer_glow2.png"));
+import java.util.function.Function;
 
-    public WandererGlowLayer(WandererRender entityRendererIn) {
-        super(entityRendererIn);
-    }
-
-    public RenderType getRenderType() {
-        return RENDER_TYPE;
-    }
-
-    @Override
-    public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, Wanderer entityLivingBaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-
+public class WandererGlowLayer<T extends LivingEntity> extends LayerGlowingAreasGeo<Wanderer> {
+    public WandererGlowLayer(GeoEntityRenderer<Wanderer> renderer, Function<Wanderer, ResourceLocation> funcGetCurrentTexture, Function<Wanderer, ResourceLocation> funcGetCurrentModel, Function<ResourceLocation, RenderType> funcGetEmissiveRenderType) {
+        super(renderer, funcGetCurrentTexture, funcGetCurrentModel, funcGetEmissiveRenderType);
     }
 }

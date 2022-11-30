@@ -22,9 +22,17 @@ public class WandererModel extends AnimatedGeoModel<Wanderer> {
                 return new ResourceLocation(UnEndurable.MODID, "textures/entity/icy_wanderer.png");
         }
 
+        public static ResourceLocation getModelResourceGLOW(Wanderer object) {
+                return new ResourceLocation(UnEndurable.MODID, "geo/icy_wanderer.geo.json");
+        }
+
+        public static ResourceLocation getTextureResourceGLOW(Wanderer object) {
+                return new ResourceLocation(UnEndurable.MODID, "textures/entity/icy_wanderer.png");
+        }
+
         @Override
         public ResourceLocation getAnimationResource(Wanderer animatable) {
-                return new ResourceLocation(UnEndurable.MODID, "animations/icy_wanderer.anim.json");
+                return new ResourceLocation(UnEndurable.MODID, "animations/icy_wanderer.idle.json");
         }
 
         @Override

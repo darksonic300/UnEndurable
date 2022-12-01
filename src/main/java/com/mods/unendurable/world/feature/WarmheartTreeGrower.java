@@ -11,7 +11,7 @@ import org.jetbrains.annotations.Nullable;
 public class WarmheartTreeGrower extends AbstractTreeGrower {
     @Nullable
     @Override
-    protected Holder<? extends ConfiguredFeature<?, ?>> getConfiguredFeature(RandomSource p_204307_, boolean p_204308_) {
-        return ModConfiguredFeatures.WARMHEART;
+    protected Holder<? extends ConfiguredFeature<?, ?>> getConfiguredFeature(RandomSource pRandom, boolean pLargeHive) {
+        return ModConfiguredFeatures.WARMHEART.getHolder().get();
     }
 }

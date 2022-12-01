@@ -2,13 +2,16 @@ package com.mods.unendurable.world.biome;
 
 import com.mods.unendurable.RegistryHandler;
 import com.mods.unendurable.world.gen.ModConfiguredFeatures;
+import com.mods.unendurable.world.gen.ModPlacedFeatures;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.data.worldgen.BiomeDefaultFeatures;
+import net.minecraft.data.worldgen.placement.OrePlacements;
 import net.minecraft.sounds.Music;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.biome.*;
+import net.minecraft.world.level.levelgen.GenerationStep;
 
 import javax.annotation.Nullable;
 
@@ -26,7 +29,7 @@ public class UETestBiomes {
         private static Biome biome(Biome.Precipitation precipitation, float temperature, float downfall, MobSpawnSettings.Builder spawnBuilder, BiomeGenerationSettings.Builder biomeBuilder, @Nullable Music music)
         {
             return biome(precipitation, temperature, downfall,
-                    4159204, 329011,
+                    4159204, 16777215,
                     spawnBuilder, biomeBuilder, music);
         }
 
@@ -37,8 +40,9 @@ public class UETestBiomes {
                     .specialEffects((new BiomeSpecialEffects.Builder())
                             .ambientParticle(new AmbientParticleSettings(ParticleTypes.WHITE_ASH, 0.05f))
                             .waterColor(waterColor).waterFogColor(waterFogColor)
-                            .fogColor(12638463)
-                            .skyColor(calculateSkyColor(temperature))
+                            .fogColor(16777215)
+                            .skyColor(7633547)
+                            .foliageColorOverride(16777215)
                             .ambientMoodSound(AmbientMoodSettings.LEGACY_CAVE_SETTINGS)
                             .backgroundMusic(music).build()).mobSpawnSettings(spawnBuilder.build())
                     .generationSettings(biomeBuilder.build()).build();
@@ -54,14 +58,11 @@ public class UETestBiomes {
             BiomeDefaultFeatures.addSurfaceFreezing(builder);
         }
 
-        //TODO: Add Warmheart Tree generation.
-        //TODO: Adjust old Biome parameters.
+        //TODO: Adjust Biome and Tree parameters.
         public static Biome iceAge()
         {
             MobSpawnSettings.Builder spawnBuilder = new MobSpawnSettings.Builder();
             spawnBuilder.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(RegistryHandler.WANDERER.get(), 5, 1, 3));
-            BiomeDefaultFeatures.commonSpawns(spawnBuilder);
-            BiomeDefaultFeatures.snowySpawns(spawnBuilder);
 
             BiomeGenerationSettings.Builder biomeBuilder = new BiomeGenerationSettings.Builder();
             globalOverworldGeneration(biomeBuilder);
@@ -70,6 +71,11 @@ public class UETestBiomes {
             BiomeDefaultFeatures.addDefaultSoftDisks(biomeBuilder);
             BiomeDefaultFeatures.addExtraEmeralds(biomeBuilder);
             BiomeDefaultFeatures.addInfestedStone(biomeBuilder);
+            addWarmheartTree(biomeBuilder);
             return biome(Biome.Precipitation.SNOW, -0.7F, 0.9F, spawnBuilder, biomeBuilder, NORMAL_MUSIC);
+        }
+
+        public static void addWarmheartTree(BiomeGenerationSettings.Builder builder) {
+            builder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModPlacedFeatures.WARMHEART_PLACED.getHolder().get());
         }
     }

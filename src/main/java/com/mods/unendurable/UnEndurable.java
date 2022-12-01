@@ -57,6 +57,7 @@ public class UnEndurable
         RegistryHandler.ITEMS.register(bus);
         RegistryHandler.BLOCKS.register(bus);
         RegistryHandler.ENTITIES.register(bus);
+        ModConfiguredFeatures.CONFIGURED_FEATURES.register(bus);
         ModPlacedFeatures.register(bus);
         UEBiomes.BIOME_REGISTER.register(bus);
         UEBiomes.registerBiomes();

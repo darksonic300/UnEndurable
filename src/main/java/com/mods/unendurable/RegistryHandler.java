@@ -1,9 +1,9 @@
 package com.mods.unendurable;
 
 import com.mods.unendurable.entities.Wanderer;
+import com.mods.unendurable.items.ArticCrystal;
 import com.mods.unendurable.items.ModArmorItem;
 import com.mods.unendurable.items.ModArmorMaterial;
-
 import com.mods.unendurable.world.feature.WarmheartTreeGrower;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffects;
@@ -52,7 +52,7 @@ public class RegistryHandler {
             () -> new SaplingBlock(new WarmheartTreeGrower(), Block.Properties.copy(Blocks.SPRUCE_SAPLING)));
 
     public static final RegistryObject<Block> SNOWMAN_HEAD = BLOCKS.register("snowman_head",
-            () -> new FlowerBlock(MobEffects.LUCK, 0, Block.Properties.copy(Blocks.GRASS)));
+            () -> new FlowerBlock(MobEffects.LUCK, 0, Block.Properties.copy(Blocks.SNOW_BLOCK)));
 
 
     //Item registration
@@ -66,6 +66,8 @@ public class RegistryHandler {
 
     public static final RegistryObject<BlockItem> WARMHEART_SAPLING_ITEM = ITEMS.register("warmheart_sapling", () -> new BlockItem(WARMHEART_SAPLING.get(), new Item.Properties().tab(UEItemGroup.TAB_UNENDURABLE_TAB)));
 
+
+
     public static final RegistryObject<Item> WANDERER_EGG = ITEMS.register("wanderer_egg",
             () -> new ForgeSpawnEggItem(RegistryHandler.WANDERER, 33323, 42424, new Item.Properties().tab(UEItemGroup.TAB_UNENDURABLE_TAB)));
 
@@ -74,6 +76,8 @@ public class RegistryHandler {
     public static final RegistryObject<Item> PHANTOM_PATCH = ITEMS.register("phantom_patch", () -> new Item(new Item.Properties().tab(UEItemGroup.TAB_UNENDURABLE_TAB)));
 
     public static final RegistryObject<Item> PHANTOM_CAPE = ITEMS.register("phantom_cape", () -> new ModArmorItem(ModArmorMaterial.PHANTOM_CLOTH, EquipmentSlot.CHEST, new Item.Properties().tab(UEItemGroup.TAB_UNENDURABLE_TAB)));
+
+    public static final RegistryObject<Item> ARCTIC_CRYSTAL = ITEMS.register("arctic_crystal", () -> new ArticCrystal(new Item.Properties().stacksTo(16).tab(UEItemGroup.TAB_UNENDURABLE_TAB)));
 
 
     @SubscribeEvent

@@ -42,6 +42,7 @@ import javax.annotation.Nullable;
 import java.util.Random;
 
 
+
 public class Wanderer extends Stray implements IAnimatable {
 
     private AnimationFactory factory = new AnimationFactory(this);

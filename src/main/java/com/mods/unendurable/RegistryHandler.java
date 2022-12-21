@@ -49,7 +49,10 @@ public class RegistryHandler {
 
     public static final RegistryObject<Block> WARMHEART_LEAVES = BLOCKS.register("warmheart_leaves",() -> new LeavesBlock(BlockBehaviour.Properties.copy(Blocks.ACACIA_LEAVES)));
 
-    public static final RegistryObject<Block> FROZEN_STONE = BLOCKS.register("frozen_stone", () -> new Block(BlockBehaviour.Properties.of(Material.STONE).sound(SoundType.GLASS).strength(1.5F, 6.0F).requiresCorrectToolForDrops()));
+    public static final RegistryObject<Block> FROZEN_STONE = BLOCKS.register("frozen_stone", () -> new Block(BlockBehaviour.Properties.of(Material.STONE).sound(SoundType.STONE).strength(1.5F, 6.0F).requiresCorrectToolForDrops()));
+    public static final RegistryObject<Block> FROZEN_STONE_SLAB = BLOCKS.register("frozen_stone_slab", () -> new SlabBlock(BlockBehaviour.Properties.of(Material.STONE).sound(SoundType.STONE).strength(1.5F, 6.0F).requiresCorrectToolForDrops()));
+    public static final RegistryObject<Block> FROZEN_STONE_STAIRS = BLOCKS.register("frozen_stone_stairs", () -> new StairBlock(RegistryHandler.FROZEN_STONE.get().defaultBlockState(), BlockBehaviour.Properties.of(Material.STONE).sound(SoundType.STONE).strength(1.5F, 6.0F).requiresCorrectToolForDrops()));
+    public static final RegistryObject<Block> FROZEN_STONE_WALL = BLOCKS.register("frozen_stone_wall", () -> new WallBlock(BlockBehaviour.Properties.of(Material.STONE).sound(SoundType.STONE).strength(1.5F, 6.0F).requiresCorrectToolForDrops()));
 
     public static final RegistryObject<Block> ICE_CARPET = BLOCKS.register("ice_carpet", () -> new CarpetBlock(BlockBehaviour.Properties.copy(Blocks.ICE)));
 

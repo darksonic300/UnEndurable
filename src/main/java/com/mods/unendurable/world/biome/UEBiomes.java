@@ -19,10 +19,11 @@ public class UEBiomes
     public static void registerBiomes()
     {
         register(ICE_AGE, UETestBiomes::iceAge);
+        register(FROZEN_CAVES, UETestBiomes::frozenCaverns);
     }
 
     public static final ResourceKey<Biome> ICE_AGE = registerBiome("ice_age");
-
+    public static final ResourceKey<Biome> FROZEN_CAVES = registerBiome("frozen_caves");
     private static ResourceKey<Biome> registerBiome(String name)
     {
         return ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(UnEndurable.MODID, name));

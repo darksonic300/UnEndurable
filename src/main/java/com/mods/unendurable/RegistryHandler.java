@@ -15,6 +15,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -48,6 +49,10 @@ public class RegistryHandler {
 
     public static final RegistryObject<Block> WARMHEART_LEAVES = BLOCKS.register("warmheart_leaves",() -> new LeavesBlock(BlockBehaviour.Properties.copy(Blocks.ACACIA_LEAVES)));
 
+    public static final RegistryObject<Block> FROZEN_STONE = BLOCKS.register("frozen_stone", () -> new Block(BlockBehaviour.Properties.of(Material.STONE).sound(SoundType.GLASS).strength(1.5F, 6.0F).requiresCorrectToolForDrops()));
+
+    public static final RegistryObject<Block> ICE_CARPET = BLOCKS.register("ice_carpet", () -> new CarpetBlock(BlockBehaviour.Properties.copy(Blocks.ICE)));
+
     public static final RegistryObject<Block> WARMHEART_SAPLING = BLOCKS.register("warmheart_sapling",
             () -> new SaplingBlock(new WarmheartTreeGrower(), Block.Properties.copy(Blocks.SPRUCE_SAPLING)));
 
@@ -56,6 +61,10 @@ public class RegistryHandler {
 
 
     //Item registration
+    public static final RegistryObject<BlockItem> FROZEN_STONE_ITEM = ITEMS.register("frozen_stone", () -> new BlockItem(FROZEN_STONE.get(), new Item.Properties().tab(UEItemGroup.TAB_UNENDURABLE_TAB)));
+
+    public static final RegistryObject<BlockItem> ICE_CARPET_ITEM = ITEMS.register("ice_carpet", () -> new BlockItem(ICE_CARPET.get(), new Item.Properties().tab(UEItemGroup.TAB_UNENDURABLE_TAB)));
+
     public static final RegistryObject<BlockItem> WARMHEART_LOG_ITEM = ITEMS.register("warmheart_log", () -> new BlockItem(WARMHEART_LOG.get(), new Item.Properties().tab(UEItemGroup.TAB_UNENDURABLE_TAB)));
 
     public static final RegistryObject<BlockItem> STRIP_WARMHEART_LOG_ITEM = ITEMS.register("stripped_warmheart_log", () -> new BlockItem(STRIP_WARMHEART_LOG.get(), new Item.Properties().tab(UEItemGroup.TAB_UNENDURABLE_TAB)));

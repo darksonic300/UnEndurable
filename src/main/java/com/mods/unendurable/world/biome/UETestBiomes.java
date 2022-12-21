@@ -5,6 +5,8 @@ import com.mods.unendurable.world.gen.ModConfiguredFeatures;
 import com.mods.unendurable.world.gen.ModPlacedFeatures;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.data.worldgen.BiomeDefaultFeatures;
+import net.minecraft.data.worldgen.Carvers;
+import net.minecraft.data.worldgen.features.CaveFeatures;
 import net.minecraft.data.worldgen.placement.OrePlacements;
 import net.minecraft.sounds.Music;
 import net.minecraft.util.Mth;
@@ -71,11 +73,35 @@ public class UETestBiomes {
             BiomeDefaultFeatures.addDefaultSoftDisks(biomeBuilder);
             BiomeDefaultFeatures.addExtraEmeralds(biomeBuilder);
             BiomeDefaultFeatures.addInfestedStone(biomeBuilder);
+
             addWarmheartTree(biomeBuilder);
             return biome(Biome.Precipitation.SNOW, -0.7F, 0.9F, spawnBuilder, biomeBuilder, NORMAL_MUSIC);
         }
 
         public static void addWarmheartTree(BiomeGenerationSettings.Builder builder) {
             builder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModPlacedFeatures.WARMHEART_PLACED.getHolder().get());
+        }
+
+
+        public static Biome frozenCaverns () {
+            MobSpawnSettings.Builder spawnBuilder = new MobSpawnSettings.Builder();
+            BiomeDefaultFeatures.commonSpawns(spawnBuilder);
+            spawnBuilder.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(EntityType.STRAY, 9, 4, 8));
+            spawnBuilder.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(RegistryHandler.WANDERER.get(), 10, 1, 8));
+
+            // Features
+            BiomeGenerationSettings.Builder biomeBuilder = new BiomeGenerationSettings.Builder();
+            globalOverworldGeneration(biomeBuilder);
+            BiomeDefaultFeatures.addFrozenSprings(biomeBuilder);
+            BiomeDefaultFeatures.addDefaultOres(biomeBuilder);
+            BiomeDefaultFeatures.addDefaultSoftDisks(biomeBuilder);
+
+            biomeBuilder.addFeature(GenerationStep.Decoration.UNDERGROUND_DECORATION, ModPlacedFeatures.ICE_SHEET_PLACED.getHolder().get());
+            //genBuilder.addFeature(GenerationStep.Decoration.LAKES, ModPlacedFeatures.ICE_LAKE_PLACED.getHolder().get());
+            biomeBuilder.addFeature(GenerationStep.Decoration.UNDERGROUND_DECORATION, ModPlacedFeatures.ICE_PILLAR_PLACED.getHolder().get());
+            biomeBuilder.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, ModPlacedFeatures.PACKED_ICE_PATCH_PLACED.getHolder().get());
+            biomeBuilder.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, ModPlacedFeatures.BLUE_ICE_PATCH_PLACED.getHolder().get());
+            biomeBuilder.addFeature(GenerationStep.Decoration.UNDERGROUND_DECORATION, ModPlacedFeatures.ICE_STALAGMITE_PLACED.getHolder().get());
+            return biome(Biome.Precipitation.SNOW, -0.7F, 0.9F, spawnBuilder, biomeBuilder, NORMAL_MUSIC);
         }
     }

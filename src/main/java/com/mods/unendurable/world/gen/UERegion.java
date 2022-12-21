@@ -30,6 +30,7 @@ public class UERegion extends Region
             // Simple example:
             // Replace the Vanilla desert with our hot_red biome
             builder.replaceBiome(Biomes.SNOWY_TAIGA, UEBiomes.ICE_AGE);
+/*
             List<Climate.ParameterPoint> frozenPeaksPoints = new ParameterPointListBuilder()
                     .temperature(Temperature.ICY, Temperature.COOL, Temperature.NEUTRAL)
                     .humidity(Humidity.ARID, Humidity.DRY, Humidity.NEUTRAL, Humidity.WET, Humidity.HUMID)
@@ -37,7 +38,21 @@ public class UERegion extends Region
                     .erosion(Erosion.EROSION_0, Erosion.EROSION_1)
                     .depth(Depth.SURFACE, Depth.FLOOR)
                     .weirdness(Weirdness.HIGH_SLICE_VARIANT_ASCENDING, Weirdness.PEAK_VARIANT, Weirdness.HIGH_SLICE_VARIANT_DESCENDING)
+                    .build();*/
+
+            builder.replaceBiome(Biomes.DEEP_DARK, UEBiomes.FROZEN_CAVES);
+
+            /*List<Climate.ParameterPoint> frozenCavePoints = new ParameterPointListBuilder()
+                    .temperature(Temperature.ICY, Temperature.COOL, Temperature.NEUTRAL)
+                    .humidity(Humidity.ARID, Humidity.DRY, Humidity.NEUTRAL, Humidity.WET, Humidity.HUMID)
+                    .continentalness(Continentalness.span(Continentalness.COAST, Continentalness.FAR_INLAND), Continentalness.span(Continentalness.MID_INLAND, Continentalness.FAR_INLAND))
+                    .erosion(Erosion.EROSION_0, Erosion.EROSION_1)
+                    .depth(Depth.UNDERGROUND, Depth.FLOOR)
+                    .weirdness(Weirdness.HIGH_SLICE_VARIANT_ASCENDING, Weirdness.PEAK_VARIANT, Weirdness.HIGH_SLICE_VARIANT_DESCENDING)
                     .build();
+            frozenCavePoints.forEach(point -> builder.replaceBiome(point, UEBiomes.FROZEN_CAVES));*/
+            //builder.replaceBiome(Biomes.LUSH_CAVES, UEBiomes.FROZEN_CAVES);
         });
     }
+
 }

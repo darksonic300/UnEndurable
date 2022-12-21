@@ -1,25 +1,18 @@
-# eclipse
-bin
-*.launch
-.settings
-.metadata
+
+# Gradle build system ignores
+.gradle/
+build/
+
+# Other IDE related folders
+.idea/
+.settings/
+
+# Minecraft client/server files
+run/
+
+# MacOS system files
+.DS_STORE
+
+# Other Files (In Eclipse)
 .classpath
 .project
-
-# idea
-out
-*.ipr
-*.iws
-*.iml
-.idea
-
-# gradle
-build
-.gradle
-
-# other
-eclipse
-run
-
-# Files from Forge MDK
-forge*changelog.txt

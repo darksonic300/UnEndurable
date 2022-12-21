@@ -10,5 +10,8 @@
   "entity.unendurable.icy_wanderer": "Ice Wanderer",
   "item.unendurable.phantom_cloth": "Phantom Cloth",
   "item.unendurable.phantom_patch": "Phantom Patch",
-  "item.unendurable.phantom_cape": "Phantom Cape"
+  "item.unendurable.phantom_cape": "Phantom Cape",
+  "item.unendurable.arctic_crystal": "§bArctic Crystal",
+  "effect.unendurable.freeze": "Freezing",
+  "itemGroup.UnEndurable": "UnEndurable"
 }

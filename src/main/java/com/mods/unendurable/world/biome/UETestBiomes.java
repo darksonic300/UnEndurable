@@ -1,7 +1,6 @@
 package com.mods.unendurable.world.biome;
 
 import com.mods.unendurable.RegistryHandler;
-import com.mods.unendurable.world.gen.ModConfiguredFeatures;
 import com.mods.unendurable.world.gen.ModPlacedFeatures;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.data.worldgen.BiomeDefaultFeatures;
@@ -10,7 +9,6 @@ import net.minecraft.data.worldgen.features.CaveFeatures;
 import net.minecraft.data.worldgen.placement.OrePlacements;
 import net.minecraft.sounds.Music;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.biome.*;
 import net.minecraft.world.level.levelgen.GenerationStep;

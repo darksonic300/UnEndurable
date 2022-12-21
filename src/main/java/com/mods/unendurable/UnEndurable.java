@@ -1,12 +1,12 @@
 package com.mods.unendurable;
 
-
 import com.mods.unendurable.world.biome.UEBiomes;
 import com.mods.unendurable.world.gen.ModFeatures;
 import com.mods.unendurable.world.gen.ModConfiguredFeatures;
 import com.mods.unendurable.world.gen.ModPlacedFeatures;
 import com.mods.unendurable.world.gen.UERegion;
 import com.mods.unendurable.world.surface.UESurfaceData;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.SurfaceRules;
 import net.minecraftforge.common.MinecraftForge;
@@ -55,8 +55,9 @@ public class UnEndurable
         RegistryHandler.ITEMS.register(bus);
         RegistryHandler.BLOCKS.register(bus);
         RegistryHandler.ENTITIES.register(bus);
+        UEEffects.MOB_EFFECTS.register(bus);
         ModConfiguredFeatures.CONFIGURED_FEATURES.register(bus);
-        ModPlacedFeatures.register(bus);
+        ModPlacedFeatures.PLACED_FEATURES.register(bus);
         UEBiomes.BIOME_REGISTER.register(bus);
         ModFeatures.FEATURES.register(bus);
         UEBiomes.registerBiomes();
@@ -76,10 +77,10 @@ public class UnEndurable
             SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, MODID, UESurfaceData.makeRules());
             SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, MODID, UESurfaceData.makeRules2());
         });
+
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
-        // do something that can only be done on the client
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event)

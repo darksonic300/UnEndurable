@@ -1,9 +1,0 @@
-Manifest-Version: 1.0
-Specification-Title: unendurable
-Specification-Vendor: TeamRazor
-Specification-Version: 1
-Implementation-Title: UnEndurable
-Implementation-Version: 19.2.0.1
-Implementation-Vendor: examplemodsareus
-Implementation-Timestamp: 2022-11-30T16:15:14+0100
-

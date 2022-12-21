@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/outer_stairs",
-  "textures": {
-    "bottom": "industrialfloor:blocks/floor",
-    "top": "industrialfloor:blocks/floor",
-    "side": "industrialfloor:blocks/floor"
-  }
-}

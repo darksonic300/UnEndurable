@@ -9,6 +9,7 @@ import net.minecraft.data.worldgen.features.CaveFeatures;
 import net.minecraft.data.worldgen.placement.OrePlacements;
 import net.minecraft.sounds.Music;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.biome.*;
 import net.minecraft.world.level.levelgen.GenerationStep;
@@ -95,7 +96,6 @@ public class UETestBiomes {
             BiomeDefaultFeatures.addDefaultSoftDisks(biomeBuilder);
 
             biomeBuilder.addFeature(GenerationStep.Decoration.UNDERGROUND_DECORATION, ModPlacedFeatures.ICE_SHEET_PLACED.getHolder().get());
-            //genBuilder.addFeature(GenerationStep.Decoration.LAKES, ModPlacedFeatures.ICE_LAKE_PLACED.getHolder().get());
             biomeBuilder.addFeature(GenerationStep.Decoration.UNDERGROUND_DECORATION, ModPlacedFeatures.ICE_PILLAR_PLACED.getHolder().get());
             biomeBuilder.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, ModPlacedFeatures.PACKED_ICE_PATCH_PLACED.getHolder().get());
             biomeBuilder.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, ModPlacedFeatures.BLUE_ICE_PATCH_PLACED.getHolder().get());
